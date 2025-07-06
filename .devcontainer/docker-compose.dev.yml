@@ -1,0 +1,33 @@
+version: '3.8'
+
+include:
+  - path: docker-compose.yml
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/workspaces/groundedllm:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    depends_on:
+      hayhooks:
+        condition: service_healthy
+      letta:
+        condition: service_healthy
+      open-webui:
+        condition: service_healthy
+      searxng:
+        condition: service_healthy
+    networks:
+      - default
+    command: sleep infinity
+
+
+networks:
+  default:
+    name: groundedllm_default
+

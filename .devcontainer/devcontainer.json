@@ -1,0 +1,63 @@
+{
+  "name": "GroundedLLM Development",
+  "dockerComposeFile": ["../docker-compose.yml", "./docker-compose.dev.yml"],
+  "service": "dev",
+  "workspaceFolder": "/workspaces/groundedllm",
+  "shutdownAction": "stopCompose",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12",
+      "installTools": true
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts",
+      "nodeGypDependencies": true
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "ms-python.mypy-type-checker",
+        "ms-python.pytest",
+        "ms-toolsai.jupyter",
+        "ms-vscode.vscode-json",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.makefile-tools",
+        "redhat.vscode-yaml",
+        "timonwong.shellcheck"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "python",
+        "python.formatting.provider": "black",
+        "python.linting.enabled": true,
+        "python.linting.ruffEnabled": true,
+        "python.testing.pytestEnabled": true,
+        "docker.dockerPath": "docker",
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/**": true,
+          "**/.venv/**": true,
+          "**/__pycache__/**": true
+        }
+      }
+    }
+  },
+  "forwardPorts": [1416, 3000, 8080, 8283, 4000, 5432],
+  "portsAttributes": {
+    "1416": {"label": "Hayhooks API"},
+    "3000": {"label": "Open WebUI"},
+    "8080": {"label": "SearXNG"},
+    "8283": {"label": "Letta API"},
+    "4000": {"label": "LiteLLM"},
+    "5432": {"label": "PostgreSQL"}
+  },
+  "postCreateCommand": "[ ! -f .env ] && cp env.example .env && echo 'Created .env file from template - please configure your API keys' || echo '.env file already exists - please verify your API keys are configured'; echo 'Full stack development environment ready!'",
+  "remoteUser": "root"
+}

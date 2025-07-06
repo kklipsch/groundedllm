@@ -176,3 +176,5 @@ cython_debug/
 #.idea/
 hayhooks/client_secret.json
 hayhooks/google_tokens/*.json
+
+.claude
